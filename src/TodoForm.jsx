@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function TodoForm({onExit}) {
+export default function TodoForm({ onExit }) {
   const [description, setDescription] = useState('');
   const [disabled, setDisabled] = useState(false);
 
@@ -9,8 +9,8 @@ export default function TodoForm({onExit}) {
     setDisabled(true);
     fetch('/api/todos', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({description}),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ description }),
     }).then(onExit);
   }
 
@@ -20,11 +20,11 @@ export default function TodoForm({onExit}) {
         <h2>Ajouter une tâche</h2>
       </header>
       <fieldset disabled={disabled}>
-        <label htmlFor='description'>Description</label>
-        <input type='text' id='description' value={description} onChange={(e) => setDescription(e.target.value)} />
+        <label htmlFor="description">Description</label>
+        <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
         <div>
-          <button type='submit'>Ajouter</button>
-          <button type='button' onClick={onExit}>
+          <button type="submit">Ajouter</button>
+          <button type="button" onClick={onExit}>
             Annuler
           </button>
         </div>

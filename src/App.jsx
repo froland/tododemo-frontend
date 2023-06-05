@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <h1>Todo demo</h1>
-      {showForm ? <TodoForm onExit={() => setShowForm(false)} /> : <TodoList onShowForm={() => setShowForm(true)} />}
+      {showForm ? <TodoForm onExit={() => setShowForm(false)}/> : <TodoList onShowForm={() => setShowForm(true)}/>}
     </>
   );
 }
