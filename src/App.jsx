@@ -1,7 +1,7 @@
-import './App.css'
-import TodoForm from "./TodoForm.jsx";
-import TodoList from "./TodoList.jsx";
-import {useState} from "react";
+import { useState } from 'react';
+import './App.css';
+import TodoForm from './TodoForm.jsx';
+import TodoList from './TodoList.jsx';
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -9,11 +9,9 @@ function App() {
   return (
     <>
       <h1>Todo demo</h1>
-      {showForm ?
-        <TodoForm onExit={() => setShowForm(false)}/> : <TodoList onShowForm={() => setShowForm(true)}/>
-      }
+      {showForm ? <TodoForm onExit={() => setShowForm(false)} /> : <TodoList onShowForm={() => setShowForm(true)} />}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
