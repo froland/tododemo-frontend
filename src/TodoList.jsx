@@ -1,8 +1,9 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import useSWR from 'swr';
-import { useAuthorizedFetcher } from './useAuthorizedFetcher.js';
+import useFetcher from './use-fetcher.js';
 
 export default function TodoList({ onShowForm }) {
-  const fetcher = useAuthorizedFetcher();
+  const { fetcher } = useFetcher();
   const { data, isLoading, error } = useSWR('/api/todos', fetcher);
   if (isLoading) return <p>Chargement...</p>;
   if (error) return <p>Erreur</p>;
@@ -11,13 +12,13 @@ export default function TodoList({ onShowForm }) {
     <main>
       <header>
         <h2>Liste des tâches</h2>
-        <button type="button" onClick={onShowForm}>
+        <button type='button' onClick={onShowForm}>
           Ajouter une tâche
         </button>
       </header>
       <ul>
         {data.map((todo) => (
-          <TodoItem key={todo.id} item={todo}/>
+          <TodoItem key={todo.id} item={todo} />
         ))}
       </ul>
     </main>
@@ -25,18 +26,25 @@ export default function TodoList({ onShowForm }) {
 }
 
 function TodoItem({ item }) {
-  function handleClick(item) {
+  const { getAccessTokenSilently } = useAuth0();
+
+  async function handleClick(item) {
     item.done = !item.done;
-    fetch(`/api/todos/${item.id}`, {
+    const token = await getAccessTokenSilently();
+    await fetch(`/api/todos/${item.id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Encoding: 'utf-8',
+      },
       body: JSON.stringify(item),
     });
   }
 
   return (
     <li>
-      <input type="checkbox" defaultChecked={item.done} onClick={() => handleClick(item)}/>
+      <input type='checkbox' defaultChecked={item.done} onClick={() => handleClick(item)} />
       {item.description}
     </li>
   );

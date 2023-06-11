@@ -6,16 +6,16 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Auth0Provider
-    domain="froland-projint-m1-2223-sandbox.eu.auth0.com"
-    clientId="DfA4awuxoTYtsASqLGJ6nW3ERA14plfn"
+    domain={import.meta.env.VITE_AUTH0_DOMAIN}
+    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
     useRefreshTokens={true}
     authorizationParams={{
-      audience: 'http://localhost:8080/api',
+      audience: import.meta.env.VITE_AUTH0_AUDIENCE,
       redirect_uri: window.location.origin,
     }}
   >
     <React.StrictMode>
-      <App/>
+      <App />
     </React.StrictMode>
   </Auth0Provider>,
 );
