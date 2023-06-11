@@ -1,7 +1,8 @@
 import useSWR from 'swr';
+import { useAuthorizedFetcher } from './useAuthorizedFetcher.js';
 
 export default function TodoList({ onShowForm }) {
-  const fetcher = (url) => fetch(url, { headers: { Accept: 'application/json' } }).then((r) => r.json());
+  const fetcher = useAuthorizedFetcher();
   const { data, isLoading, error } = useSWR('/api/todos', fetcher);
   if (isLoading) return <p>Chargement...</p>;
   if (error) return <p>Erreur</p>;

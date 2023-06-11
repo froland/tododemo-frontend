@@ -8,7 +8,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <Auth0Provider
     domain="froland-projint-m1-2223-sandbox.eu.auth0.com"
     clientId="DfA4awuxoTYtsASqLGJ6nW3ERA14plfn"
+    useRefreshTokens={true}
     authorizationParams={{
+      audience: 'http://localhost:8080/api',
       redirect_uri: window.location.origin,
     }}
   >
