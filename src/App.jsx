@@ -1,23 +1,20 @@
-import { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import './App.css';
 import LoginButton from './LoginButton.jsx';
-import LogoutButton from './LogoutButton.jsx';
-import Profile from './Profile.jsx';
-import TodoForm from './TodoForm.jsx';
-import TodoList from './TodoList.jsx';
+import TodoHome from './TodoHome.jsx';
 
 function App() {
-  const [showForm, setShowForm] = useState(false);
+
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <div>Chargement en cours...</div>;
+  }
 
   return (
     <>
-      <h1>Todo demo (optimisée)</h1>
-      <Profile/>
-      <p>
-        <LoginButton/>
-        <LogoutButton/>
-      </p>
-      {showForm ? <TodoForm onExit={() => setShowForm(false)}/> : <TodoList onShowForm={() => setShowForm(true)}/>}
+      <h1>Todo demo</h1>
+      {isAuthenticated ? <TodoHome/> : <LoginButton/>}
     </>
   );
 }
