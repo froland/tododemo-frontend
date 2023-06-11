@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import LoginButton from './LoginButton.jsx';
 import LogoutButton from './LogoutButton.jsx';
+import Profile from './Profile.jsx';
 import TodoForm from './TodoForm.jsx';
 import TodoList from './TodoList.jsx';
 
@@ -11,7 +12,11 @@ function App() {
   return (
     <>
       <h1>Todo demo (optimisée)</h1>
-      <p><LoginButton/> <LogoutButton/></p>
+      <Profile/>
+      <p>
+        <LoginButton/>
+        <LogoutButton/>
+      </p>
       {showForm ? <TodoForm onExit={() => setShowForm(false)}/> : <TodoList onShowForm={() => setShowForm(true)}/>}
     </>
   );
