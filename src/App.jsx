@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <h1>Todo demo</h1>
+      <h1>Todo demo (optimisée)</h1>
       {showForm ? <TodoForm onExit={() => setShowForm(false)}/> : <TodoList onShowForm={() => setShowForm(true)}/>}
     </>
   );
