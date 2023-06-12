@@ -1,15 +1,21 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 
 export default function TodoForm({ onExit }) {
   const [description, setDescription] = useState('');
   const [disabled, setDisabled] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setDisabled(true);
+    const accessToken = await getAccessTokenSilently();
     fetch('/api/todos', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ description }),
     }).then(onExit);
   }

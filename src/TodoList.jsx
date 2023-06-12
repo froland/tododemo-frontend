@@ -1,7 +1,19 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import useSWR from 'swr';
 
 export default function TodoList({ onShowForm }) {
-  const fetcher = (url) => fetch(url, { headers: { Accept: 'application/json' } }).then((r) => r.json());
+  const { getAccessTokenSilently } = useAuth0();
+
+  const fetcher = async (url) => {
+    const accessToken = await getAccessTokenSilently();
+    return fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      }
+    }).then((r) => r.json())
+  };
+
   const { data, isLoading, error } = useSWR('/api/todos', fetcher);
   if (isLoading) return <p>Chargement...</p>;
   if (error) return <p>Erreur</p>;
@@ -24,11 +36,17 @@ export default function TodoList({ onShowForm }) {
 }
 
 function TodoItem({ item }) {
-  function handleClick(item) {
+  const { getAccessTokenSilently } = useAuth0();
+
+  async function handleClick(item) {
     item.done = !item.done;
+    const accessToken = await getAccessTokenSilently();
     fetch(`/api/todos/${item.id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(item),
     });
   }
