@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './App.css';
 import LoginButton from './LoginButton.jsx';
 import LogoutButton from './LogoutButton.jsx';
+import PermissionGuard from './PermissionGuard.jsx';
 import TodoForm from './TodoForm.jsx';
 import TodoList from './TodoList.jsx';
 
@@ -21,8 +22,10 @@ function App() {
         {isAuthenticated ?
           <div>
             <p>Bonjour {user.name} <LogoutButton/></p>
-            {showForm ? <TodoForm onExit={() => setShowForm(false)}/> :
-              <TodoList onShowForm={() => setShowForm(true)}/>}
+            <PermissionGuard permission={'read:todos'}>
+              {showForm ? <TodoForm onExit={() => setShowForm(false)}/> :
+                <TodoList onShowForm={() => setShowForm(true)}/>}
+            </PermissionGuard>
           </div>
           :
           <LoginButton/>
