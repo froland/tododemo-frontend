@@ -10,12 +10,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
     useRefreshTokens={true}
     authorizationParams={{
-      audience: import.meta.env.VITE_AUTH0_AUDIENCE,
       redirect_uri: window.location.origin,
+      audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+      scope: 'read:todos write:todos read:all-todos',
     }}
   >
     <React.StrictMode>
-      <App />
+      <App/>
     </React.StrictMode>
   </Auth0Provider>,
 );

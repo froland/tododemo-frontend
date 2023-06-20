@@ -1,20 +1,36 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import { useState } from 'react';
 import './App.css';
 import LoginButton from './LoginButton.jsx';
-import TodoHome from './TodoHome.jsx';
+import LogoutButton from './LogoutButton.jsx';
+import PermissionGuard from './PermissionGuard.jsx';
+import TodoForm from './TodoForm.jsx';
+import TodoList from './TodoList.jsx';
 
 function App() {
-
-  const { isAuthenticated, isLoading } = useAuth0();
+  const [showForm, setShowForm] = useState(false);
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
-    return <div>Chargement en cours...</div>;
+    return <div>En chargement...</div>;
   }
 
   return (
     <>
-      <h1>Todo demo</h1>
-      {isAuthenticated ? <TodoHome/> : <LoginButton/>}
+      <div>
+        <h1>Todo demo</h1>
+        {isAuthenticated ?
+          <div>
+            <p>Bonjour {user.name} <LogoutButton/></p>
+            <PermissionGuard permission={'read:todos'}>
+              {showForm ? <TodoForm onExit={() => setShowForm(false)}/> :
+                <TodoList onShowForm={() => setShowForm(true)}/>}
+            </PermissionGuard>
+          </div>
+          :
+          <LoginButton/>
+        }
+      </div>
     </>
   );
 }

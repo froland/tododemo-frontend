@@ -9,16 +9,15 @@ export default function TodoForm({ onExit }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setDisabled(true);
-    const token = await getAccessTokenSilently();
-    await fetch('/api/todos', {
+    const accessToken = await getAccessTokenSilently();
+    fetch('/api/todos', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ description }),
-    });
-    onExit();
+    }).then(onExit);
   }
 
   return (
@@ -27,11 +26,11 @@ export default function TodoForm({ onExit }) {
         <h2>Ajouter une tâche</h2>
       </header>
       <fieldset disabled={disabled}>
-        <label htmlFor='description'>Description</label>
-        <input type='text' id='description' value={description} onChange={(e) => setDescription(e.target.value)} />
+        <label htmlFor="description">Description</label>
+        <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
         <div>
-          <button type='submit'>Ajouter</button>
-          <button type='button' onClick={onExit}>
+          <button type="submit">Ajouter</button>
+          <button type="button" onClick={onExit}>
             Annuler
           </button>
         </div>
